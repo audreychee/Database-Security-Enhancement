@@ -20,7 +20,6 @@ Comprehensive security assessment and enhancement of a registration and login mo
 - Tools
 - Results
 - Contributing
-- License
 - Disclaimer
 
 ## Overview
@@ -66,70 +65,103 @@ Modern Web Browser (Chrome/Firefox)
 ## Installation
 
 ### 1. Clone Repository
-### 2. Set Up XAMPP Environment
-### 3. Database Configuration
-### 4. Configure Database Connection
+```bash
+git clone https://github.com/audreychee/Database-Security-Enhancement.git
+cd Database-Security-Enhancement
+```
 
+### 2. Set Up XAMPP Environment
+```bash
+# Download and install XAMPP from https://www.apachefriends.org/
+# Start Apache and MySQL services via XAMPP Control Panel
+# Place project files in htdocs directory
+C:\xampp\htdocs\Database-Security-Enhancement\
+```
+
+### 3. Database Configuration
+```sql
+-- Create database
+CREATE DATABASE online_property_marketplace;
+USE online_property_marketplace;
+
+-- Create user table
+CREATE TABLE userlist (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    fname VARCHAR(50) NOT NULL,
+    lname VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Insert test users
+INSERT INTO userlist (fname, lname, email, password) VALUES
+('Audrey', 'Chee', 'audrey@gmail.com', '$2y$10$example_hashed_password'),
+('Megan', 'Smith', 'megan@gmail.com', '$2y$10$example_hashed_password2');
+```
+
+### 4. Configure Database Connection
+```php
+// config/database.php
+<?php
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "online_property_marketplace";
+
+try {
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    if ($conn->connect_error) {
+        throw new Exception("Connection failed: " . $conn->connect_error);
+    }
+    $conn->set_charset("utf8");
+} catch (Exception $e) {
+    error_log("Database connection error: " . $e->getMessage());
+    die("Database connection failed. Please try again later.");
+}
+?>
+```
 
 ## Usage
-
 ### Manual SQL Injection Testing
-
 #### Authentication Bypass Techniques
 #### Parameter Injection Testing
-### Automated Testing with OWASP ZAP
 
+### Automated Testing with OWASP ZAP
 #### 1. Configure ZAP Context
 #### 2. Authentication Configuration
 #### 3. Active Scan Execution
 
-### Security Enhancement Implementation
 
+### Security Enhancement Implementation
 #### 1. Parameterized Queries
 #### 2. Input Validation and Sanitization
-#### 3. Client-side Validation
-
 
 ## Documentation
 
 ### Project Structure
 ```
-├── vulnerable/                    # Original vulnerable application
-│   ├── login.php
-│   ├── register.php
+├── vulnerable/                    
 │   ├── account.php
-│   └── config.php
-├── secure/                        # Enhanced secure application
-│   ├── login.php
-│   ├── register.php
-│   ├── account.php
-│   ├── config/
-│   │   ├── database.php
-│   │   └── security.php
-│   └── includes/
-│       ├── validation.php
-│       └── auth.php
-├── database/
-│   ├── schema.sql
-│   ├── test_data.sql
-│   └── security_patches.sql
-├── testing/
-│   ├── manual_tests/
-│   │   ├── authentication_bypass.md
-│   │   ├── parameter_injection.md
-│   │   └── time_based_injection.md
-│   ├── automated_tests/
-│   │   ├── zap_baseline_scan.xml
-│   │   ├── zap_active_scan.xml
-│   │   └── vulnerability_reports/
-│   └── screenshots/
-│       ├── before_remediation/
-│       └── after_remediation/
+│   ├── contactus.php
+│   ├── dashboard.php
+│   └── header.php
+│   └── login.php
+│   └── reg_confirm.php
+│   └── register.php
+│   └── style.css
+│   └── cos20031_proj.sql
+│   └── v3_changelog.txt
+├── image/
+│   ├── logo.png
+│   ├── module1.png
+│   └── module2.png
+│   └── module3.png
+│   └── p_pic.png
+│   └── settings.png
 ├── documentation/
-│   ├── security_assessment_report.pdf
-│   ├── vulnerability_analysis.md
-│   ├── remediation_guide.md
-│   └── testing_methodology.md
+│   ├── Evaluation and Enhancement of Database Security for Online Property Marketplace.pdf
 └── README.md
 ```
 
@@ -240,10 +272,6 @@ git commit -m "Add advanced input validation techniques"
 # Submit pull request
 git push origin security/advanced-validation
 ```
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Disclaimer
 
